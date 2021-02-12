@@ -1,0 +1,94 @@
+<html>
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Space Tech</title>
+
+    <script>
+
+    // Should be indentifying factors they think are important
+    // A blind person using screen readers does not necessarily need or want everything on a web page to be read out. They will want to skip through different sections of the page.
+
+    var i = 0;
+    function checkLogin() {
+
+      // Semantic HTML allows meaningful labelling of elements rather than just the presentation of them
+      // Semantic HTML gives context to screen readers
+
+      var user = document.getElementById("inputUsername");
+      var pass = document.getElementById("inputPassword");
+      var err = document.getElementById("error");
+
+        // WAI-ARIA is not a version of HTML it is used where Semantic HTML cannot manage accessability as well as it should.
+
+        if (user.value == "user" && pass.value == "password123" && i < 3) {
+
+          // Consideration and significance
+          // Should assess how well the page uses semantic HTML and WAI-ARIA
+          // Aria only used where built in semantics and behavior are not enough
+          // semantic HTML used to describe elements throughout eg; header, footer, headings and paragraphs
+          // title used so that the user knows the purpose of the page
+          // Heading levels (H1, H2) used which means the user can listen to all the section headings and decide which part of the page they are interested in
+
+          err.style.color = "green";
+          err.innerHTML = "Successful login!";
+
+          // <nav> Used to define the navigation menu to make it easily recognizable and so the user would not think it is a list
+          // <main> you so that it is clear what is the main content of the page so that the user can easily jump to it
+          // Aria-hidden also used so that the user does not hear unnecessary instructions
+
+          setTimeout(function() {window.location.replace("success.html");}, 2000);
+        }
+
+        // <sections> used to divide the page into three distinct sections
+        // <fieldset> and <legend> used to tell screen readers that the radio buttons relate to each other and so the user gets told this, will be used for the choice of title before being told what the first radio button is
+        // Labels and input types used sensibly for name, email and password. only the word password would not be read out by screen reader. This is for  security purposes.
+        // however, user may not know a password is required so ARIA could possibly have been used to define a role and user label so they could hear it
+        // asterisks would not be readen by screen reader use area-hidden
+
+        else if (i > 1) {
+
+          // area-requires used to make sure the user knows which fields are required
+
+          err.innerHTML = "Unknown username or password. Too many tries.";
+
+          // date input types used. date format would be read out by screen reader but this is not seen on the screen as visual-hidden class used to hide it
+
+          document.getElementById("submit").style.display = "none";
+          user.disabled = true;
+          pass.disabled = true;
+        }
+
+        // button use uses area-describedby so user would hear what the button will do
+
+        else {
+
+          i++;
+          err.innerHTML = "Unknown username or password. " + (3-i) + " tries remaining.";
+        }
+      }
+
+    </script>
+  </head>
+
+  <body>
+
+		<h2>Enter log in details</h2>
+
+		<form>
+
+        <fieldset style="width:15%">
+    		  <p>Enter Username :<input type="text" id="inputUsername"></p>
+    		  <p>Enter Password :<input type="password" id="inputPassword"></p>
+
+      </fieldset>
+
+       <p id="error" style="color:red;">You have 3 tries.</p>
+       <p><input type="button" value="Login" id="submit" onclick="checkLogin()"></p>
+
+		</form>
+
+ </body>
+
+</html>
